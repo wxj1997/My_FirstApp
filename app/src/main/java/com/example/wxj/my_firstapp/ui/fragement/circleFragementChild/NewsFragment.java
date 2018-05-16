@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.wxj.my_firstapp.R;
-import com.example.wxj.my_firstapp.adapter.DataListAdapter;
+import com.example.wxj.my_firstapp.adapter.NewsAdapter;
 import com.example.wxj.my_firstapp.bean.News;
 import com.example.wxj.my_firstapp.net.HttpResult;
 import com.example.wxj.my_firstapp.net.RetrofitUtil;
@@ -29,7 +29,7 @@ public class NewsFragment extends Fragment {
     private RecyclerView recyclerView;
     private View view;
     private List<News> mNews;
-    private DataListAdapter dataListAdapter;
+    private NewsAdapter newsAdapter;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -54,7 +54,7 @@ public class NewsFragment extends Fragment {
                                    Response<HttpResult<List<News>>> response) {
 
 
-              dataListAdapter.addData(response.body().getData());
+              newsAdapter.addData(response.body().getData());
 
 
             }
@@ -68,8 +68,8 @@ public class NewsFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        dataListAdapter = new DataListAdapter(R.layout.item_view, mNews);
-        recyclerView.setAdapter(dataListAdapter);
+        newsAdapter = new NewsAdapter(R.layout.item_view_news, mNews);
+        recyclerView.setAdapter(newsAdapter);
     }
 
     private void initView() {
