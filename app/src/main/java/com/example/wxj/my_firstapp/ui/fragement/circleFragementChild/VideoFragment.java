@@ -41,7 +41,7 @@ public class VideoFragment extends Fragment implements BaseQuickAdapter.OnItemCl
     private View view;
     private List<Video> videos;
     private VideoAdapter videoAdapter;
-    private ImageView imagePlay;
+
 
     public VideoFragment() {
         // Required empty public constructor
