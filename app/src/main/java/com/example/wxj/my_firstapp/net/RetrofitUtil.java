@@ -11,7 +11,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class RetrofitUtil {
+/*public class RetrofitUtil {
     public static void getNewsByRetrofit(Callback<HttpResult<List<News>>> callback) {
         Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2").addConverterFactory
                 (GsonConverterFactory.create()).build();
@@ -27,4 +27,4 @@ public class RetrofitUtil {
         Call<HttpResult<List<Video>>> call=apiService.getVideo();
         call.enqueue(callback);
     }
-}
+}*/

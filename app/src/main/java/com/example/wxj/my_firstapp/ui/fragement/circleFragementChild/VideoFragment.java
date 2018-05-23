@@ -1,7 +1,6 @@
 package com.example.wxj.my_firstapp.ui.fragement.circleFragementChild;
 
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,7 +21,11 @@ import com.example.wxj.my_firstapp.activity.VideoActivity;
 import com.example.wxj.my_firstapp.adapter.VideoAdapter;
 import com.example.wxj.my_firstapp.bean.Video;
 import com.example.wxj.my_firstapp.net.HttpResult;
-import com.example.wxj.my_firstapp.net.RetrofitUtil;
+import com.example.wxj.my_firstapp.net.HttpUtil;
+/*import com.example.wxj.my_firstapp.net.RetrofitUtil;*/
+
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +64,7 @@ public class VideoFragment extends Fragment implements BaseQuickAdapter.OnItemCl
     private void initData() {
 
         videos = new ArrayList<>();
-        RetrofitUtil.getVideoByRetrofit(new Callback<HttpResult<List<Video>>>() {
+        /*RetrofitUtil.getVideoByRetrofit(new Callback<HttpResult<List<Video>>>() {
             @Override
             public void onResponse(Call<HttpResult<List<Video>>> call, Response<HttpResult<List
                     <Video>>> response) {
@@ -70,6 +73,27 @@ public class VideoFragment extends Fragment implements BaseQuickAdapter.OnItemCl
 
             @Override
             public void onFailure(Call<HttpResult<List<Video>>> call, Throwable t) {
+
+            }
+        });*/
+        HttpUtil.getIntance().getVideo(new Subscriber<List<Video>>() {
+            @Override
+            public void onSubscribe(Subscription s) {
+                s.request(Long.MAX_VALUE);
+            }
+
+            @Override
+            public void onNext(List<Video> videos) {
+                videoAdapter.addData(videos);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+
+            }
+
+            @Override
+            public void onComplete() {
 
             }
         });
@@ -89,9 +113,9 @@ public class VideoFragment extends Fragment implements BaseQuickAdapter.OnItemCl
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         Video video = (Video) adapter.getItem(position);
-        Intent intent=new Intent(getActivity(), VideoActivity.class);
-        intent.putExtra("Video_Name",video.getName());
-        intent.putExtra("Video_Url",video.getVideoUrl());
+        Intent intent = new Intent(getActivity(), VideoActivity.class);
+        intent.putExtra("Video_Name", video.getName());
+        intent.putExtra("Video_Url", video.getVideoUrl());
         startActivity(intent);
     }
 }

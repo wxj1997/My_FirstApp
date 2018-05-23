@@ -46,4 +46,9 @@ dependencies {
     compile 'cn.jzvd:jiaozivideoplayer:6.2.10'
 
     compile 'com.github.wseemann:FFmpegMediaMetadataRetriever:1.0.14'
+
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    compile 'io.reactivex.rxjava2:rxjava:2.1.9'
+
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
 }

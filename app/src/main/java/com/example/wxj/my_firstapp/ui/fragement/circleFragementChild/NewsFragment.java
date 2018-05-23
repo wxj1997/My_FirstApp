@@ -8,19 +8,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.wxj.my_firstapp.R;
 import com.example.wxj.my_firstapp.adapter.NewsAdapter;
 import com.example.wxj.my_firstapp.bean.News;
-import com.example.wxj.my_firstapp.net.HttpResult;
-import com.example.wxj.my_firstapp.net.RetrofitUtil;
+import com.example.wxj.my_firstapp.net.exception.ServerException;
+import com.example.wxj.my_firstapp.net.HttpUtil;
+/*import com.example.wxj.my_firstapp.net.RetrofitUtil;*/
+
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,7 +49,7 @@ public class NewsFragment extends Fragment {
 
     private void initData() {
         mNews = new ArrayList<>();
-        RetrofitUtil.getNewsByRetrofit(new Callback<HttpResult<List<News>>>() {
+       /* RetrofitUtil.getNewsByRetrofit(new Callback<HttpResult<List<News>>>() {
             @Override
             public void onResponse(Call<HttpResult<List<News>>> call,
                                    Response<HttpResult<List<News>>> response) {
@@ -61,6 +62,31 @@ public class NewsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<HttpResult<List<News>>> call, Throwable t) {
+
+            }
+        });*/
+        HttpUtil.getIntance().getNews(new Subscriber<List<News>>() {
+            @Override
+            public void onSubscribe(Subscription s) {
+                s.request(Long.MAX_VALUE);
+            }
+
+            @Override
+            public void onNext(List<News> newses) {
+                newsAdapter.addData(newses);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                if (t instanceof ServerException) {
+                    Toast.makeText(getContext(), ((ServerException) t).getMessage(), Toast
+                            .LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onComplete() {
 
             }
         });
