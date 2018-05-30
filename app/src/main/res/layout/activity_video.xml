@@ -13,4 +13,13 @@
         android:layout_width="match_parent"
         android:layout_height="200dp">
     </cn.jzvd.JZVideoPlayerStandard>
+
+    <ImageView
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:id="@+id/iv_favorite"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/ico_favorite_normal"
+        />
 </LinearLayout>

@@ -15,6 +15,6 @@ public interface ApiService {
     @GET("news.php")
     Flowable<HttpResult<List<News>>> getNews();
 
-    @GET("video.php")
+    @GET("video1.php")
     Flowable<HttpResult<List<Video>>> getVideo();
 }

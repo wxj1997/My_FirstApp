@@ -114,8 +114,10 @@ public class VideoFragment extends Fragment implements BaseQuickAdapter.OnItemCl
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         Video video = (Video) adapter.getItem(position);
         Intent intent = new Intent(getActivity(), VideoActivity.class);
+        intent.putExtra("Video_Id",video.getId());
         intent.putExtra("Video_Name", video.getName());
         intent.putExtra("Video_Url", video.getVideoUrl());
+        intent.putExtra("Video_ImageUrl", video.getVideoImageUrl());
         startActivity(intent);
     }
 }

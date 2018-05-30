@@ -5,6 +5,22 @@ public class Video {
     private int id;
     private String name;
     private String videoUrl;
+    private String videoImageUrl;
+
+    public Video(int id, String name, String videoUrl, String videoImageUrl) {
+        this.id = id;
+        this.name = name;
+        this.videoUrl = videoUrl;
+        this.videoImageUrl = videoImageUrl;
+    }
+
+    public String getVideoImageUrl() {
+        return videoImageUrl;
+    }
+
+    public void setVideoImageUrl(String videoImageUrl) {
+        this.videoImageUrl = videoImageUrl;
+    }
 
     public int getId() {
         return id;
@@ -36,6 +52,7 @@ public class Video {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", videoUrl='" + videoUrl + '\'' +
+                ", videoImageUrl='" + videoImageUrl + '\'' +
                 '}';
     }
 }

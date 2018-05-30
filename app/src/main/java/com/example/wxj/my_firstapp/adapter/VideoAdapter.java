@@ -4,7 +4,10 @@ package com.example.wxj.my_firstapp.adapter;
 import android.graphics.Bitmap;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.util.Log;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.wxj.my_firstapp.R;
@@ -21,11 +24,14 @@ public class VideoAdapter extends BaseQuickAdapter<Video, BaseViewHolder> {
 
     @Override
     protected void convert(BaseViewHolder helper, Video item) {
-        helper.setText(R.id.tv_video_name,item.getName());
-        helper.setImageBitmap(R.id.image_thumb, getBitmap(item.getVideoUrl()));
+        helper.setText(R.id.tv_video_name, item.getName());
+       /* helper.setImageBitmap(R.id.image_thumb, getBitmap(item.getVideoUrl()));*/
+        Glide.with(mContext).load(item.getVideoImageUrl()).into((ImageView) helper.getView(R.id
+                .image_thumb));
+
     }
 
-    public Bitmap getBitmap(String imageUrl) {
+ /*   public Bitmap getBitmap(String imageUrl) {
         FFmpegMediaMetadataRetriever mmr = new FFmpegMediaMetadataRetriever();
         mmr.setDataSource(imageUrl);
         mmr.extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_ALBUM);
@@ -36,5 +42,5 @@ public class VideoAdapter extends BaseQuickAdapter<Video, BaseViewHolder> {
 
         mmr.release();
         return b;
-    }
+    }*/
 }

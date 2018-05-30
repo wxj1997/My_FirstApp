@@ -20,7 +20,7 @@ public class RetrofitManger {
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .build();
         mRetrofit = new Retrofit.Builder()
-                .baseUrl("http://10.0.2.2")
+                .baseUrl("http://192.168.2.105")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)
