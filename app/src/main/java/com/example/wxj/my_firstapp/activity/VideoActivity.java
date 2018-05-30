@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.wxj.my_firstapp.R;
@@ -19,6 +20,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     private JZVideoPlayerStandard jzVideoPlayerStandard;
     private ImageView mFavoriteImageView;
     private Video mVideo;
+    private ImageView deleteBtn;
 
 
     @Override
@@ -41,6 +43,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
                 (videoUrl
                         , JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, videoName);
         mFavoriteImageView.setOnClickListener(this);
+        deleteBtn.setOnClickListener(this);
         mVideo=new Video(videoId,videoName,videoUrl,videoImageUrl);
 
 
@@ -49,6 +52,7 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     private void initView() {
         jzVideoPlayerStandard = (JZVideoPlayerStandard) findViewById(R.id.videoplayer);
         mFavoriteImageView=(ImageView)findViewById(R.id.iv_favorite);
+       deleteBtn=(ImageView) findViewById(R.id.delete);
     }
 
     @Override
@@ -72,6 +76,11 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
                 DBUtil.getInstance(this).insert(mVideo);
                 mFavoriteImageView.setImageResource(R.drawable.ico_favorite_selected);
                 break;
+            case R.id.delete:
+                DBUtil.getInstance(this).delete(mVideo.getName());
+                deleteBtn.setImageResource(R.drawable.delete_select);
+                break;
+
         }
 
     }

@@ -44,6 +44,9 @@ public class FindFragment extends Fragment {
 
     private void initData() {
         videos = DBUtil.getInstance(getContext()).query();
+      /*  DBUtil.getInstance(getContext()).delete("后来的我们");
+        DBUtil.getInstance(getContext()).delete("不爱我就拉倒");
+        DBUtil.getInstance(getContext()).delete("HandClap");*/
         videoAdapter = new VideoAdapter(R.layout.item_view_video, videos);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(videoAdapter);
