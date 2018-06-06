@@ -24,6 +24,7 @@ import com.example.wxj.my_firstapp.net.HttpResult;
 import com.example.wxj.my_firstapp.net.HttpUtil;
 /*import com.example.wxj.my_firstapp.net.RetrofitUtil;*/
 
+import org.greenrobot.eventbus.EventBus;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
@@ -113,11 +114,12 @@ public class VideoFragment extends Fragment implements BaseQuickAdapter.OnItemCl
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         Video video = (Video) adapter.getItem(position);
+        EventBus.getDefault().postSticky(video);
         Intent intent = new Intent(getActivity(), VideoActivity.class);
-        intent.putExtra("Video_Id",video.getId());
+       /* intent.putExtra("Video_Id",video.getId());
         intent.putExtra("Video_Name", video.getName());
         intent.putExtra("Video_Url", video.getVideoUrl());
-        intent.putExtra("Video_ImageUrl", video.getVideoImageUrl());
+        intent.putExtra("Video_ImageUrl", video.getVideoImageUrl());*/
         startActivity(intent);
     }
 }

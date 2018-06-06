@@ -3,14 +3,19 @@ package com.example.wxj.my_firstapp.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.example.wxj.my_firstapp.R;
 import com.example.wxj.my_firstapp.bean.Video;
 import com.example.wxj.my_firstapp.db.DBUtil;
 
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import cn.jzvd.JZVideoPlayer;
 import cn.jzvd.JZVideoPlayerStandard;
@@ -21,6 +26,17 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     private ImageView mFavoriteImageView;
     private Video mVideo;
     private ImageView deleteBtn;
+
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    public void onMessageEvent(Video video) {
+        mVideo = video;
+        jzVideoPlayerStandard.setUp
+                (mVideo.getVideoUrl()
+                        , JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, mVideo.getName());
+        //视频播放界面缩略图
+        Glide.with(this).load(mVideo.getVideoImageUrl()).into(jzVideoPlayerStandard.thumbImageView);
+    }
+
 
 
     @Override
@@ -34,25 +50,24 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initData() {
-        Intent intent = getIntent();
-        int  videoId=intent.getIntExtra("Video_Id",0);
-        String videoName=intent.getStringExtra("Video_Name");
-        String videoUrl=intent.getStringExtra("Video_Url");
-        String videoImageUrl=intent.getStringExtra("Video_ImageUrl");
-        jzVideoPlayerStandard.setUp
-                (videoUrl
-                        , JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL, videoName);
+        /*Intent intent = getIntent();
+        int videoId = intent.getIntExtra("Video_Id", 0);
+        String videoName = intent.getStringExtra("Video_Name");
+        String videoUrl = intent.getStringExtra("Video_Url");
+        String videoImageUrl = intent.getStringExtra("Video_ImageUrl");*/
+
         mFavoriteImageView.setOnClickListener(this);
         deleteBtn.setOnClickListener(this);
-        mVideo=new Video(videoId,videoName,videoUrl,videoImageUrl);
+
+      /*  mVideo = new Video(videoId, videoName, videoUrl, videoImageUrl);*/
 
 
     }
 
     private void initView() {
         jzVideoPlayerStandard = (JZVideoPlayerStandard) findViewById(R.id.videoplayer);
-        mFavoriteImageView=(ImageView)findViewById(R.id.iv_favorite);
-       deleteBtn=(ImageView) findViewById(R.id.delete);
+        mFavoriteImageView = (ImageView) findViewById(R.id.iv_favorite);
+        deleteBtn = (ImageView) findViewById(R.id.delete);
     }
 
     @Override
@@ -70,8 +85,20 @@ public class VideoActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.iv_favorite:
                 DBUtil.getInstance(this).insert(mVideo);
                 mFavoriteImageView.setImageResource(R.drawable.ico_favorite_selected);

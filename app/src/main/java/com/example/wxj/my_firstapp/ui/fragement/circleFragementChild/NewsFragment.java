@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +14,11 @@ import android.widget.Toast;
 import com.example.wxj.my_firstapp.R;
 import com.example.wxj.my_firstapp.adapter.NewsAdapter;
 import com.example.wxj.my_firstapp.bean.News;
+import com.example.wxj.my_firstapp.loder.BannerImageLoder;
 import com.example.wxj.my_firstapp.net.exception.ServerException;
 import com.example.wxj.my_firstapp.net.HttpUtil;
+import com.example.wxj.my_firstapp.util.Const;
+import com.youth.banner.Banner;
 /*import com.example.wxj.my_firstapp.net.RetrofitUtil;*/
 
 import org.reactivestreams.Subscriber;
@@ -31,6 +35,8 @@ public class NewsFragment extends Fragment {
     private View view;
     private List<News> mNews;
     private NewsAdapter newsAdapter;
+    private Banner mBanner;
+    private List<String> bannerImageUrl;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -96,10 +102,22 @@ public class NewsFragment extends Fragment {
 
         newsAdapter = new NewsAdapter(R.layout.item_view_news, mNews);
         recyclerView.setAdapter(newsAdapter);
+        //轮播图
+        bannerImageUrl=new ArrayList<>();
+        for (int i=0;i< Const.BANNER_IMAGE_URL.length;i++){
+            bannerImageUrl.add(Const.BANNER_IMAGE_URL[i]);
+        }
+
+        mBanner.setImageLoader(new BannerImageLoder())
+                .setImages(bannerImageUrl)
+                .start();
+
+
     }
 
     private void initView() {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        mBanner=(Banner)view.findViewById(R.id.banner);
     }
 
 }
